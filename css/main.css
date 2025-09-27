@@ -285,3 +285,56 @@ body {
   #map { height: 420px; border-radius: 18px; }
 }
 
+/* ===== FIX MÓVIL DEL HEADER + BUSCADOR (≤480px) ===== */
+@media (max-width: 480px){
+  /* El body no necesita tanto espacio superior */
+  body { padding-top: 64px; }
+
+  /* Header compacto y a ancho completo */
+  .app-header{
+    position: fixed;
+    top: 0; left: 0; transform: none;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 0;
+    gap: 8px;
+  }
+
+  /* Estructura: logo | buscador flexible | user */
+  .app-header{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+
+  .logo img{ width: 32px; height: 32px; }
+  .logo-text{ font-size: 16px; }          /* si no cabe, ocúltalo: display:none; */
+
+  /* Buscador: ¡sin min-width! que pueda encoger */
+  .searchbar{
+    min-width: 0;          /* <-- elimina la rigidez de 380px */
+    width: 100%;
+    padding: 10px 10px 10px 36px;
+  }
+  .searchbar .search-ico{ left: 12px; }
+  
+  .header-right{ gap: 8px; }
+  .user-btn{ font-size: 22px; }
+  
+  /* Márgenes de secciones más cortos */
+  .proximas h2, .mapa h2, .busqueda h2{
+    margin: 16px 12px 10px;
+    font-size: 22px;
+  }
+  .proximas{ margin: 0 12px; }
+  .mapa{ padding: 0 12px 16px; }
+  .escenarios-grid{ padding: 12px; }
+  
+  /* Carrusel y grillas en una columna */
+  .carousel{ grid-auto-columns: 88%; padding: 6px 12px 10px; margin: 0; }
+  .grid{ grid-template-columns: 1fr; gap: 14px; }
+
+  /* Mapa un poco más bajo para caber bien */
+  #map{ height: 380px; border-radius: 16px; }
+}
+

@@ -1,4 +1,6 @@
-/* Layout principal de la página de reserva */
+/* ================== reserva.css — Reemplazo completo ================== */
+
+/* Layout principal */
 .page { margin: 24px 150px 150px; }
 .page-title {
   margin: 0 0 16px;
@@ -6,7 +8,7 @@
   color: #b7b7b7;
 }
 
-/* 2 columnas */
+/* Dos columnas (izquierda: media+info, derecha: calendario+horarios+form) */
 .reserva-layout {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
@@ -14,13 +16,20 @@
   align-items: start;
 }
 
-/* Izquierda */
-.venue-media img{
-  width: 100%;
-  height: 440px;
-  object-fit: cover;
+/* ================== Izquierda ================== */
+.venue-media{
+  margin: 0;                      /* <figure> trae margin por defecto */
   border-radius: 26px;
+  overflow: hidden;
   box-shadow: 0 18px 42px rgba(0,0,0,.22);
+}
+.venue-media img{
+  display: block;                 /* elimina el gap inline */
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;           /* proporción consistente */
+  object-fit: cover;
+  object-position: center;
   background: #eee;
 }
 
@@ -36,27 +45,26 @@
 }
 .venue-meta strong { color: #666; }
 
-/* Derecha */
+/* ================== Derecha ================== */
 .right-title {
-  margin: 6px 0 12px;
+  margin: 6px 0 8px;              /* compacto */
   font: 800 32px/1.1 "Varela Round", sans-serif;
   color: #b7b7b7;
 }
 
-/* Calendario card */
+/* --- Calendario --- */
 .cal-card {
   background: #fff;
   border-radius: 18px;
   box-shadow: 0 20px 44px rgba(0,0,0,.18);
   padding: 18px;
-  margin-bottom: 18px;
+  margin-bottom: 10px;            /* compacto */
 }
-
 .cal-header {
   display: grid;
   grid-template-columns: 40px 1fr 40px;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;             /* compacto */
 }
 .cal-nav {
   width: 36px; height: 36px;
@@ -68,16 +76,29 @@
   text-align: center;
   font: 700 18px/1 "Varela Round", sans-serif;
 }
-.cal-grid { margin-top: 6px; }
-.cal-dow {
-  display: inline-grid; place-items: center;
-  width: calc(100%/7); height: 32px; color:#777;
-  font: 600 12px/32px "Varela Round", sans-serif;
-}
-.cal-days {
+
+/* Fila de días (Lu Ma Mi Ju Vi Sa Do) */
+.cal-grid{
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px; margin-top: 6px;
+  gap: 8px;
+  margin-top: 6px;
+}
+.cal-dow{
+  display: grid;
+  place-items: center;
+  height: 32px;
+  font: 600 12px/1 "Varela Round", sans-serif;
+  color: #777;
+  white-space: nowrap;
+}
+
+/* Días del mes (7 columnas) */
+.cal-days{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-top: 6px;
 }
 .cal-day {
   display: grid; place-items: center;
@@ -89,10 +110,27 @@
 .cal-day.available { background: #ffe6cc; color:#7a3e00; }
 .cal-day.selected { background: #ff8a00; color: #fff; }
 
-/* Horarios */
-.time-row {
-  display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 12px 16px;
-  align-items: center; margin: 8px 0 16px;
+/* Salvavidas: si .cal-grid quedara dentro del header por error */
+.cal-header .cal-grid{ grid-column: 1 / -1; grid-row: 2; margin-top: 8px; }
+
+/* --- Horarios: DEBAJO DEL CALENDARIO --- */
+.time-under-cal{
+  margin: 10px 0 12px;
+}
+@media (min-width: 769px){
+  .time-under-cal{
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr;
+    gap: 12px 16px;
+    align-items: center;
+  }
+}
+@media (max-width: 768px){
+  .time-under-cal{
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Desde — Hasta */
+    gap: 10px 12px;
+  }
 }
 .time-row label { color:#8b7f70; font: 600 14px/1 "Varela Round", sans-serif; }
 .time-group {
@@ -104,8 +142,11 @@
   border: 0; outline: 0; background: transparent; font: 600 14px "Varela Round", sans-serif;
 }
 
-/* Formulario */
-.reserva-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; }
+/* --- Formulario --- */
+.reserva-form {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px;
+  margin-top: 8px;                 /* compacto */
+}
 .reserva-form .field { display: grid; gap: 6px; }
 .field.full { grid-column: 1 / -1; }
 .field.half { grid-column: span 1; }
@@ -120,7 +161,6 @@
   box-shadow: 0 10px 24px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.6);
   font: 500 14px "Varela Round", sans-serif; color:#444;
 }
-
 .select-like { text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
 .select-like span { opacity: .7; }
 
@@ -132,47 +172,82 @@
 .submit-btn { margin-top: 6px; grid-column: 1 / -1; }
 .why { display: inline-block; margin-top: 8px; color:#8b8b8b; font-size: 12px; }
 
-/* Responsive */
+/* ================== Responsive ================== */
+@media (max-width: 1024px){
+  /* 2 columnas → 1 */
+  .reserva-layout { grid-template-columns: 1fr; gap: 20px; }
+}
+
 @media (max-width: 980px){
   .page { padding: 10px 24px 60px; }
   .page-title { font-size: 28px; }
-  .reserva-layout { grid-template-columns: 1fr; gap: 22px; }
-  .venue-media img { height: 260px; }
+  .venue-media img { height: auto; }
   .right-title { font-size: 26px; }
   .reserva-form { grid-template-columns: 1fr; }
   .time-row { grid-template-columns: 1fr; gap: 10px; }
 }
 
-/* ====== MOBILE PATCH (reserva) ====== */
-@media (max-width: 1024px){
-  /* dos columnas → una */
-  .reserva-layout { display: grid; grid-template-columns: 1fr; gap: 20px; }
-}
-
 @media (max-width: 768px){
-  /* media principal sin saltos */
   .venue-media img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
-
-  /* calendario: encabezado y días en 7 col siempre */
-  .cal-header { margin-bottom: 10px; }
-  .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; }
-  .cal-dow { display: grid; place-items: center; height: 32px; white-space: nowrap; }
-
-  .cal-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; margin-top: 6px; }
-  .cal-day { display: grid; place-items: center; aspect-ratio: 1 / 1; min-height: 36px; }
-
-  /* horarios: 2 columnas en móvil */
-  .time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
-
-  /* formulario: 1 columna en móvil */
-  .reserva-form { display: grid; grid-template-columns: 1fr; gap: 12px 14px; }
-  .field.full { grid-column: 1 / -1; }
-  .submit-btn { grid-column: 1 / -1; }
+  .cal-day { aspect-ratio: 1 / 1; min-height: 36px; }
+  .reserva-form { grid-template-columns: 1fr; gap: 10px 12px; }
 }
 
 @media (max-width: 480px){
   .page { margin: 12px 16px 80px; }
   .page-title, .right-title { font-size: 24px; }
-  .cal-day { font-size: 13px; }
-  .time-group, .reserva-form input, .reserva-form select, .select-like { min-height: 44px; }
+  .cal-dow { height: 28px; font-size: 12px; }
+  .btn-cta, .select-like, .reserva-form input, .reserva-form select { min-height: 44px; }
 }
+
+/* ====== MOBILE POLISH (≤600px) — Reserva ====== */
+@media (max-width: 600px){
+  /* marco general */
+  .page{ margin: 10px 12px 64px; }
+  .page-title{ font-size: 22px; margin: 4px 0 10px; }
+
+  /* media izquierda */
+  .venue-media{ border-radius: 18px; box-shadow: 0 10px 24px rgba(0,0,0,.15); }
+  .venue-media img{ border-radius: 18px; aspect-ratio: 16/9; object-fit: cover; }
+  .venue-title{ font-size: 22px; margin: 10px 0 6px; }
+  .venue-meta{ font-size: 14px; line-height: 1.6; }
+
+  /* título derecha */
+  .right-title{ font-size: 22px; margin: 10px 0 8px; }
+
+  /* calendario */
+  .cal-card{ padding: 14px; border-radius: 16px; margin-bottom: 8px; }
+  .cal-header{ grid-template-columns: 36px 1fr 36px; margin-bottom: 6px; }
+  .cal-nav{ width: 32px; height: 32px; box-shadow: 0 5px 12px rgba(0,0,0,.16); }
+  .cal-month{ font-size: 16px; }
+  .cal-grid{ gap: 6px; }
+  .cal-dow{ height: 26px; font-size: 11px; }
+  .cal-days{ gap: 6px; }
+  .cal-day{ aspect-ratio: 1/1; min-height: 34px; font-size: 13px; }
+
+  /* horario (debajo del calendario) */
+  .time-under-cal{
+    margin: 8px 0 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* Desde / Hasta */
+    gap: 10px 10px;
+  }
+  .time-under-cal label{ font-size: 12px; }
+  .time-group{ padding: 6px 10px; }
+  .time-group select{ max-width: 100%; }
+
+  /* formulario */
+  .reserva-form{
+    grid-template-columns: 1fr;
+    gap: 10px 12px;
+    margin-top: 6px;
+  }
+  .reserva-form .field{ gap: 6px; }
+  .select-like,
+  .reserva-form input,
+  .reserva-form select{ min-height: 44px; }
+  .submit-btn{ margin-top: 8px; }
+}
+
+/* break ya existente para 768px puede quedarse;
+   este bloque afina específicamente el look en pantallas de teléfono */

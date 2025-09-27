@@ -168,3 +168,42 @@ body::before {
   .login-box, .login-card { padding: 16px; border-radius: 18px; }
   .login-card h1 { font-size: 22px; }
 }
+
+/* === FIX DEFINITIVO: inputs se salen del contenedor === */
+
+/* 0) Dentro del login, todo calcula el ancho con padding incluido */
+.login-box, .login-box * { box-sizing: border-box; }
+
+/* 1) La tarjeta nunca debe exceder el viewport */
+.login-box{
+  width: min(420px, 100% - 24px);  /* respeta márgenes en móviles estrechos */
+  margin-inline: auto;
+  padding: clamp(16px, 4vw, 28px);
+  border-radius: clamp(18px, 5vw, 40px);
+}
+
+/* 2) Inputs al 100% reales (incluyendo padding) */
+.input-group input{
+  width: 100%;
+  max-width: 100%;
+  padding: 12px 14px 12px 44px;   /* deja espacio al icono */
+  /* box-sizing ya viene de la regla 0 */
+}
+
+/* 3) Fila de opciones: que haga wrap si no cabe */
+.options{
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; flex-wrap: wrap;
+}
+.options a{ white-space: nowrap; margin-left: auto; }
+
+/* 4) Botones a ancho completo y cómodos al tacto */
+.btn-login, .btn-google, .btn-apple{ width: 100%; min-height: 46px; }
+
+/* 5) Ajustes extra para pantallas muy estrechas */
+@media (max-width: 480px){
+  body{ padding: 12px; }
+  .login-box{ width: 100%; }
+  .options{ flex-direction: column; align-items: flex-start; }
+  .options a{ align-self: flex-end; }
+}

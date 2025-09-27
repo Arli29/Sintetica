@@ -183,25 +183,43 @@ label input[type="checkbox"] {
   line-height: 1;
 }
 
-/* ====== MOBILE PATCH (registro) ====== */
+/* === REGISTRO: botones sociales al FINAL y con ancho como en login === */
 @media (max-width: 900px){
-  /* si tienes dos columnas (logo + form), que hagan wrap */
-  .register-box, .reg-layout { display: flex; flex-wrap: wrap; gap: 16px; }
-  .form-section, .logo-section { flex: 1 1 320px; min-width: 280px; }
-  .register-box { width: min(900px, 100% - 32px); margin: 0 auto; padding: 20px; border-radius: 20px; }
+  /* El contenedor principal queda en columna */
+  .register-box{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Aplano .logo-section para poder reordenar sus hijos (logo y botones) */
+  .logo-section{ display: contents; }
+
+  /* 1) LOGO ARRIBA */
+  .logo-section img{
+    order: -1;                /* se ubica antes que todo */
+    align-self: center;
+    width: 160px;
+    height: auto;
+    margin: 0 0 10px !important;
+    display: block;
+  }
+
+  /* 2) FORMULARIO EN MEDIO (queda con order por defecto = 0) */
+  .form-section{ order: 0; width: 100%; }
+
+  /* 3) SOCIALES AL FINAL y del MISMO ANCHO que en login */
+  .logo-section .btn-google,
+  .logo-section .btn-apple{
+    order: 99;                              /* van después del form */
+    width: min(420px, 100%) !important;     /* mismo ancho que la card de login */
+    margin: 10px auto 0;                    /* centrados */
+    border-radius: 14px;
+  }
+
+  /* Iconos compactos y texto alineado */
+  .logo-section .btn-google img,
+  .logo-section .btn-google svg{ width: 18px !important; height: 18px !important; flex: 0 0 18px; display: block; }
+  .logo-section .btn-apple i{ font-size: 18px; line-height: 1; }
 }
 
-@media (max-width: 768px){
-  /* inputs en una columna */
-  .reg-grid, .input-row { display: grid; grid-template-columns: 1fr; gap: 12px; }
-  .reg-card, .register-card { width: min(600px, 100%); margin: 0 auto; padding: 20px; border-radius: 20px; }
-  .reg-card h1, .register-card h1 { font-size: 24px; }
-
-  /* botones sociales fluidos */
-  .btn-google, .btn-apple { width: 100%; min-height: 46px; }
-  .logo-section img { width: min(260px, 70%); height: auto; display: block; margin-inline: auto; }
-}
-
-@media (max-width: 480px){
-  .reg-card, .register-card { padding: 16px; border-radius: 18px; }
-}
