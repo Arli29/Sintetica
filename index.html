@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sintética</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/8f4f25a6a7.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo">
+        <img src="img/logo_solo.png" alt="Sintética" />
+        <span class="logo-text">Sintética</span>
+      </div>
+
+      <div class="header-right">
+        <div class="searchbar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder='Busca "Campo de fútbol"' />
+        </div>
+        <!-- Icono de usuario sin caja -->
+        <a class="user-btn" href="login.html" title="Iniciar sesión">
+          <i class="fa-solid fa-user" aria-hidden="true"></i>
+          <span class="sr-only">Iniciar sesión</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Próximas reservas -->
+    <section class="proximas">
+      <h2>Próximas reservas</h2>
+
+      <div class="reserva-card" id="reservaCard">
+        <figure class="reserva-media">
+          <img
+            class="reserva-thumb"
+            src="img/campo_castellana.png"
+            alt="Cancha de fútbol la castellana"
+          />
+          <div class="reserva-arrows">
+            <button class="prev" aria-label="Anterior">‹</button>
+            <button class="next" aria-label="Siguiente">›</button>
+          </div>
+        </figure>
+
+        <div class="reserva-body">
+          <h3 class="reserva-title">Cancha de fútbol la castellana</h3>
+          <p class="reserva-sub">Campo de fútbol</p>
+          <p class="reserva-meta">Fecha: 22/09/2025</p>
+          <p class="reserva-meta">Hora: 20:00</p>
+          <p class="reserva-meta">Tipo de reserva: Gratuita</p>
+          <button class="btn-cta">Ver más detalles</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mapa -->
+    <section class="mapa">
+      <h2>Escenarios disponibles</h2>
+      <div id="map"></div>
+    </section>
+
+    <!-- Grilla de escenarios (AHORA con data-cat para el filtro) -->
+    <section class="escenarios-grid">
+      <div class="grid" id="sitios-deportivos">
+        <article class="card" data-cat="futbol">
+          <img src="img/sierra_nevada.png" alt="Estadio Sierra Nevada" />
+          <div class="card-body">
+            <h3>Estadio Sierra Nevada</h3>
+            <p class="card-sub">Campo de futbol</p>
+            <button class="btn-cta">Mirar disponibilidad</button>
+          </div>
+        </article>
+
+        <article class="card" data-cat="voleibol">
+          <img src="img/coliseo_menor.png" alt="Coliseo Menor" />
+          <div class="card-body">
+            <h3>Coliseo Menor</h3>
+            <p class="card-sub">Complejo de voleibol</p>
+            <button class="btn-cta">Mirar disponibilidad</button>
+          </div>
+        </article>
+
+        <article class="card" data-cat="natacion">
+          <img src="img/piscina_olimpica.png" alt="Piscina Olímpica" />
+          <div class="card-body">
+            <h3>Piscina Olímpica</h3>
+            <p class="card-sub">Natación</p>
+            <button class="btn-cta">Mirar disponibilidad</button>
+          </div>
+        </article>
+
+        <article class="card" data-cat="futbol">
+          <img src="img/curinca.png" alt="Cancha de futbol Curinca" />
+          <div class="card-body">
+            <h3>Cancha de futbol Curinca</h3>
+            <p class="card-sub">Campo de futbol</p>
+            <button class="btn-cta" id="miBoton">Mirar disponibilidad</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="load-more-wrap">
+        <button id="btnLoadMore" class="btn-load">Cargar más</button>
+      </div>
+    </section>
+
+    <!-- Sección filtros + carrusel -->
+    <section class="busqueda">
+      <h2>¿Qué buscas?</h2>
+
+      <div class="chips" id="chips">
+        <button class="chip active" data-cat="todos">Todos</button>
+        <button class="chip" data-cat="futbol">Fútbol</button>
+        <button class="chip" data-cat="voleibol">Voleibol</button>
+        <button class="chip" data-cat="natacion">Natación</button>
+        <button class="chip" data-cat="baloncesto">Baloncesto</button>
+        <button class="chip" data-cat="tenis">Tenis</button>
+        <button class="chip" data-cat="patinaje">Patinaje</button>
+        <button class="chip" data-cat="bicicross">Bicicross</button>
+      </div>
+
+      <!-- Carrusel horizontal -->
+      <div class="carousel" id="carousel">
+        <article class="slide" data-cat="futbol">
+          <img src="img/sierra_nevada.png" alt="" />
+          <h3>Estadio Sierra Nevada</h3>
+          <p class="card-sub">Campo de futbol</p>
+        </article>
+
+        <article class="slide" data-cat="futbol">
+          <img src="img/polisur.png" alt="" />
+          <h3>Cancha de futbol poli sur</h3>
+          <p class="card-sub">Campo de futbol</p>
+        </article>
+
+        <article class="slide" data-cat="voleibol">
+          <img src="img/coliseo_menor.png" alt="" />
+          <h3>Coliseo Menor</h3>
+          <p class="card-sub">Complejo de voleibol</p>
+        </article>
+
+        <article class="slide" data-cat="natacion">
+          <img src="img/piscina_olimpica.png" alt="" />
+          <h3>Piscina Olímpica</h3>
+          <p class="card-sub">Natación</p>
+        </article>
+
+        <article class="slide" data-cat="futbol">
+          <img src="img/curinca.png" alt="" />
+          <h3>Campo de futbol Curinca</h3>
+          <p class="card-sub">Campo de futbol</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="js/mapa.js"></script>
+    <script src="js/home.js"></script>
+  </body>
+</html>
