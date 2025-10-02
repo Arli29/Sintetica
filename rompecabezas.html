@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rompecanchas — Demo independiente</title>
+  <link rel="stylesheet" href="css/rompecabezas.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Rompecanchas — Demo</h1>
+    <p class="lead">Arma la imagen deslizando pieza por pieza hacia el espacio vacío. Si lo completas a tiempo, ¡ganas un descuento!</p>
+
+    <section class="toolbar">
+      <div class="group">
+        <label for="size">Tamaño</label>
+        <select id="size">
+          <option value="3">3 × 3</option>
+          <option value="4" selected>4 × 4</option>
+          <option value="5">5 × 5</option>
+        </select>
+      </div>
+
+      <div class="group">
+        <button id="shuffle" class="btn">Mezclar</button>
+        <button id="solve" class="btn-ghost">Resolver</button>
+      </div>
+
+      <div class="stats">
+        <div>Movimientos: <strong id="moves">0</strong></div>
+        <div>Tiempo: <strong id="time">00:00</strong></div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div id="board" class="board" aria-label="Tablero del rompecabezas" role="grid"></div>
+      <figure class="preview">
+        <figcaption>Imagen de referencia</figcaption>
+        <img id="preview" alt="Vista previa" />
+      </figure>
+    </section>
+
+    <div class="help">
+      <ul>
+        <li><b>Click/Tap:</b> mueve una pieza adyacente al hueco.</li>
+        <li><b>Teclado:</b> usa ↑ ↓ ← → para mover el hueco.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Modal de victoria -->
+  <div id="winModal" class="modal" hidden>
+    <div class="card">
+      <h2>¡Completado! 🏁</h2>
+      <p>Tiempo: <b id="finalTime">—</b> · Movimientos: <b id="finalMoves">—</b></p>
+      <div id="rewardArea" class="reward"></div>
+      <button class="btn" id="playAgain">Jugar de nuevo</button>
+    </div>
+  </div>
+
+  <script src="js/rompecabezas.js"></script>
+</body>
+</html>
